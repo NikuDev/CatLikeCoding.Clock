@@ -1,9 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Clock : MonoBehaviour
 {
+    public Transform HoursTransform, MinutesTransform, SecondsTransform;
+    private readonly float _degreesPerHour = 30f;
+    private readonly float _degreesPerMinute = 6f;
+    private readonly float _degreesPerSecond = 6f;
+
+    void Awake()
+    {
+        // log the time on awake for debugging purposes
+        Debug.Log(DateTime.Now);
+
+        // use the function to set the arms to the current time
+        this.TransformArmsToCurrentTime();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +28,18 @@ public class Clock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // use the function to set the arms to the current time
+        this.TransformArmsToCurrentTime();
+    }
+
+    private void TransformArmsToCurrentTime()
+    {
+        DateTime currentTime = DateTime.Now;
+        this.HoursTransform.localRotation =
+            Quaternion.Euler(0, currentTime.Hour * _degreesPerHour, 0);
+        this.MinutesTransform.localRotation =
+            Quaternion.Euler(0, currentTime.Minute * _degreesPerMinute, 0);
+        this.SecondsTransform.localRotation =
+            Quaternion.Euler(0, currentTime.Second * _degreesPerSecond, 0);
     }
 }
